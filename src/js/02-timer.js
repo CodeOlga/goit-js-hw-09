@@ -3,8 +3,16 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const startBtn = document.querySelector('button[data-start]');
 startBtn.setAttribute('disabled', '');
-// startBtn.addEventListener('click', updateMarkup());
+// startBtn.addEventListener('click', timer.updateMarkup);
+startBtn.style.color = 'red';
+
+const body = document.body;
+body.style.backgroundColor = '#777777';
+// const fields = document.querySelector('.timer');
+// fields.style.color = 'red';
+
 let selectedDates = [];
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -24,6 +32,7 @@ const options = {
 
 flatpickr('input#datetime-picker', options);
 
+//---------------------------------------------------------------
 class CountDownTimer {
   constructor({ selector, selectedDates }) {
     this.selectedDates = selectedDates;
@@ -59,18 +68,20 @@ class CountDownTimer {
     const minutes = Math.floor(((ms % day) % hour) / minute);
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
-    //  const days = Math.floor(ms / day)
-    //    .toString()
-    //    .padStart(2, '0');
-    //  const hours = Math.floor((ms % day) / hour)
-    //    .toString()
-    //    .padStart(2, '0');
-    //  const minutes = Math.floor(((ms % day) % hour) / minute)
-    //    .toString()
-    //    .padStart(2, '0');
-    //  const seconds = Math.floor((((ms % day) % hour) % minute) / second)
-    //    .toString()
-    //    .padStart(2, '0');
+    // addLeadingZero(value) {}
+
+    // const days = Math.floor(ms / day)
+    //   .toString()
+    //   .padStart(2, '0');
+    // const hours = Math.floor((ms % day) / hour)
+    //   .toString()
+    //   .padStart(2, '0');
+    // const minutes = Math.floor(((ms % day) % hour) / minute)
+    //   .toString()
+    //   .padStart(2, '0');
+    // const seconds = Math.floor((((ms % day) % hour) % minute) / second)
+    //   .toString()
+    //   .padStart(2, '0');
 
     return { days, hours, minutes, seconds };
   }
@@ -80,7 +91,9 @@ const timer = new CountDownTimer({
   selector: '.timer',
   selectedDates: selectedDates.toString(),
   // selectedDates: new Date(selectedDates).toString(),
+  // selectedDates: new Date(selectedDates.toString()),
+  // selectedDates: new Date(selectedDates[0]).toString(),
   // selectedDates: new Date(selectedDates[0]),
 });
-// startBtn.addEventListener('click', timer.updateMarkup());
+startBtn.addEventListener('click', timer.updateMarkup);
 // timer.updateMarkup();
