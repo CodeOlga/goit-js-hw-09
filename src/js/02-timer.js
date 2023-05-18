@@ -18,6 +18,7 @@ const options = {
       startBtn.removeAttribute('disabled', '');
     }
     console.log(selectedDates[0]);
+    // console.log(selectedDates);
   },
 };
 
@@ -28,8 +29,8 @@ class CountDownTimer {
     this.selectedDates = selectedDates;
     this.daysSpan = document.querySelector(`${selector} [data-days]`);
     this.hoursSpan = document.querySelector(`${selector} [data-hours]`);
-    this.minsSpan = document.querySelector(`${selector} [data-mins]`);
-    this.secsSpan = document.querySelector(`${selector} [data-secs]`);
+    this.minsSpan = document.querySelector(`${selector} [data-minutes]`);
+    this.secsSpan = document.querySelector(`${selector} [data-seconds]`);
     // startBtn.addEventListener('click', this.updateMarkup());
     // this.updateMarkup();
   }
@@ -65,6 +66,7 @@ class CountDownTimer {
 const timer = new CountDownTimer({
   selector: '.timer',
   selectedDates: new Date(selectedDates),
+  // selectedDates: new Date(selectedDates[0]),
 });
-// startBtn.addEventListener('click', timer.updateMarkup());
+startBtn.addEventListener('click', timer.updateMarkup());
 // timer.updateMarkup();
