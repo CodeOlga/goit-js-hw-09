@@ -59,14 +59,28 @@ class CountDownTimer {
     const minutes = Math.floor(((ms % day) % hour) / minute);
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
+    //  const days = Math.floor(ms / day)
+    //    .toString()
+    //    .padStart(2, '0');
+    //  const hours = Math.floor((ms % day) / hour)
+    //    .toString()
+    //    .padStart(2, '0');
+    //  const minutes = Math.floor(((ms % day) % hour) / minute)
+    //    .toString()
+    //    .padStart(2, '0');
+    //  const seconds = Math.floor((((ms % day) % hour) % minute) / second)
+    //    .toString()
+    //    .padStart(2, '0');
+
     return { days, hours, minutes, seconds };
   }
 }
 
 const timer = new CountDownTimer({
   selector: '.timer',
-  selectedDates: new Date(selectedDates),
+  selectedDates: selectedDates.toString(),
+  // selectedDates: new Date(selectedDates).toString(),
   // selectedDates: new Date(selectedDates[0]),
 });
-startBtn.addEventListener('click', timer.updateMarkup());
+// startBtn.addEventListener('click', timer.updateMarkup());
 // timer.updateMarkup();
