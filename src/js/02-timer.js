@@ -49,7 +49,7 @@ class CountDownTimer {
   }
 
   updateMarkup() {
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       const currentTime = Date.now();
       const delta = this.targetDate - currentTime;
 
@@ -62,7 +62,7 @@ class CountDownTimer {
       this.minsSpan.textContent = minutes;
       this.secsSpan.textContent = seconds;
       if (delta === 0) {
-        clearInterval();
+        clearInterval(intervalId);
       }
     }, 1000);
   }
