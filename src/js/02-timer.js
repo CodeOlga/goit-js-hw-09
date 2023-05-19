@@ -24,6 +24,7 @@ const options = {
     if (Date.now() > selectedDates[0]) {
       Notiflix.Notify.failure('Please choose a date in the future');
     } else {
+      Notiflix.Notify.success('Success');
       startBtn.disabled = false;
       timer.setTargetDate(selectedDates[0]);
     }
