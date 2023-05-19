@@ -103,7 +103,7 @@ class CountDownTimer {
 
 const timer = new CountDownTimer({
   selector: '.timer',
-  targetDate: fp.selectedDates[0],
+  targetDate: fp.selectedDates[0].getTime(),
 });
 
 function onStartBtnClick() {
