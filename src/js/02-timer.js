@@ -5,6 +5,7 @@ import Notiflix from 'notiflix';
 const startBtn = document.querySelector('button[data-start]');
 startBtn.disabled = true;
 startBtn.style.color = 'red';
+// startBtn.style.fontSize = '30px';
 startBtn.addEventListener('click', onStartBtnClick);
 
 const body = document.body;
@@ -35,6 +36,9 @@ const options = {
 const fp = flatpickr('input#datetime-picker', options);
 // console.log(fp);
 //---------------------------------------------------------------
+// function addLeadingZero(value) {
+//   return String(value).padStart(2, '0');
+// }
 class CountDownTimer {
   constructor({ selector, targetDate }) {
     this.targetDate = targetDate;
@@ -48,12 +52,18 @@ class CountDownTimer {
     setInterval(() => {
       const currentTime = Date.now();
       const delta = this.targetDate - currentTime;
+
+      // console.log(currentTime);
+      // console.log(this.targetDate);
       // console.log(delta);
       const { days, hours, minutes, seconds } = this.convertMs(delta);
       this.daysSpan.textContent = days;
       this.hoursSpan.textContent = hours;
       this.minsSpan.textContent = minutes;
       this.secsSpan.textContent = seconds;
+      if (delta === 0) {
+        clearInterval();
+      }
     }, 1000);
   }
   // this.updateMarkup()
@@ -67,7 +77,6 @@ class CountDownTimer {
     const hours = Math.floor((ms % day) / hour);
     const minutes = Math.floor(((ms % day) % hour) / minute);
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-
     // const days = Math.floor(ms / day)
     //   .toString()
     //   .padStart(2, '0');
@@ -83,7 +92,11 @@ class CountDownTimer {
 
     return { days, hours, minutes, seconds };
   }
+  //  addLeadingZero(value) {
+  //   return String(value).padStart(2, '0');
+  // }
 }
+
 // function addLeadingZero(value) {
 //   return value.toString().padStart(2, '0');
 // }
