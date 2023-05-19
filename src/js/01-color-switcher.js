@@ -6,22 +6,30 @@ const stopBtn = document.querySelector('button[data-stop]');
 
 startBtn.addEventListener('click', onStartBtnClick);
 stopBtn.addEventListener('click', onStopBtnClick);
-stopBtn.setAttribute('disabled', '');
 
+//button stop is disabled by default
+// stopBtn.setAttribute('disabled', '');
+stopBtn.disabled = true;
+
+//randomly change bgColor 1 per second
 function onStartBtnClick() {
   timerId = setInterval(() => {
     document.body.style.backgroundColor = getRandomHexColor();
   }, BG_CHANGE_FREQUENCY);
 
-  startBtn.setAttribute('disabled', '');
-  stopBtn.removeAttribute('disabled', '');
+  startBtn.disabled = true;
+  stopBtn.disabled = false;
+  // startBtn.setAttribute('disabled', '');
+  // stopBtn.removeAttribute('disabled', '');
 }
 
 function onStopBtnClick() {
   clearInterval(timerId);
 
-  startBtn.removeAttribute('disabled', '');
-  stopBtn.setAttribute('disabled', '');
+  startBtn.disabled = false;
+  stopBtn.disabled = true;
+  // startBtn.removeAttribute('disabled', '');
+  // stopBtn.setAttribute('disabled', '');
 }
 
 function getRandomHexColor() {
