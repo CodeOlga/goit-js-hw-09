@@ -11,9 +11,13 @@ startBtn.style.width = '100px';
 startBtn.addEventListener('click', onStartBtnClick);
 
 const body = document.body;
-// body.style.backgroundColor = '#888888';
-body.style.background =
-  'https://images.unsplash.com/photo-1578923931302-7fd9b3495be7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dGltZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60';
+body.style.backgroundImage =
+  'url(https://images.unsplash.com/photo-1578923931302-7fd9b3495be7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dGltZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60)';
+body.style.backgroundRepeat = 'no-repeat';
+body.style.backgroundSize = 'cover';
+body.style.backgroundPosition = 'center';
+body.style.minHeight = '100vh';
+
 const options = {
   enableTime: true,
   time_24hr: true,
