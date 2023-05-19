@@ -5,15 +5,13 @@ import Notiflix from 'notiflix';
 const startBtn = document.querySelector('button[data-start]');
 startBtn.disabled = true;
 startBtn.style.color = 'red';
-// startBtn.style.fontSize = '30px';
+startBtn.style.fontSize = '20px';
+startBtn.style.borderRadius = '5px';
+startBtn.style.width = '100px';
 startBtn.addEventListener('click', onStartBtnClick);
 
 const body = document.body;
-body.style.backgroundColor = '#777777';
-// const fields = document.querySelector('.timer');
-// fields.style.color = 'red';
-
-// const currentTime = Date.now();
+body.style.backgroundColor = '#888888';
 
 const options = {
   enableTime: true,
@@ -27,46 +25,44 @@ const options = {
       Notiflix.Notify.failure('Please choose a date in the future');
     } else {
       startBtn.disabled = false;
+      timer.setTargetDate(selectedDates[0]);
     }
     console.log(selectedDates[0]);
-    // console.log(selectedDates);
   },
 };
 
-const fp = flatpickr('input#datetime-picker', options);
-// console.log(fp);
-//---------------------------------------------------------------
-// function addLeadingZero(value) {
-//   return String(value).padStart(2, '0');
-// }
+flatpickr('input#datetime-picker', options);
+// const fp = flatpickr('input#datetime-picker', options);
+
 class CountDownTimer {
-  constructor({ selector, targetDate }) {
-    this.targetDate = targetDate;
+  constructor({ selector }) {
+    this.targetDate;
     this.daysSpan = document.querySelector(`${selector} [data-days]`);
     this.hoursSpan = document.querySelector(`${selector} [data-hours]`);
     this.minsSpan = document.querySelector(`${selector} [data-minutes]`);
     this.secsSpan = document.querySelector(`${selector} [data-seconds]`);
   }
-
+  setTargetDate(targetDate) {
+    this.targetDate = targetDate;
+  }
   updateMarkup() {
     const intervalId = setInterval(() => {
       const currentTime = Date.now();
       const delta = this.targetDate - currentTime;
-
-      // console.log(currentTime);
-      // console.log(this.targetDate);
-      // console.log(delta);
       const { days, hours, minutes, seconds } = this.convertMs(delta);
-      this.daysSpan.textContent = days;
-      this.hoursSpan.textContent = hours;
-      this.minsSpan.textContent = minutes;
-      this.secsSpan.textContent = seconds;
-      if (delta === 0) {
+
+      this.daysSpan.textContent = this.addLeadingZero(days);
+      this.hoursSpan.textContent = this.addLeadingZero(hours);
+      this.minsSpan.textContent = this.addLeadingZero(minutes);
+      this.secsSpan.textContent = this.addLeadingZero(seconds);
+
+      //потрібно, щоб було < 1000ms
+      if (delta < 1000) {
         clearInterval(intervalId);
       }
     }, 1000);
   }
-  // this.updateMarkup()
+
   convertMs(ms) {
     const second = 1000;
     const minute = second * 60;
@@ -77,38 +73,26 @@ class CountDownTimer {
     const hours = Math.floor((ms % day) / hour);
     const minutes = Math.floor(((ms % day) % hour) / minute);
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-    // const days = Math.floor(ms / day)
-    //   .toString()
-    //   .padStart(2, '0');
-    // const hours = Math.floor((ms % day) / hour)
-    //   .toString()
-    //   .padStart(2, '0');
-    // const minutes = Math.floor(((ms % day) % hour) / minute)
-    //   .toString()
-    //   .padStart(2, '0');
-    // const seconds = Math.floor((((ms % day) % hour) % minute) / second)
-    //   .toString()
-    //   .padStart(2, '0');
 
     return { days, hours, minutes, seconds };
   }
-  //  addLeadingZero(value) {
-  //   return String(value).padStart(2, '0');
-  // }
+  addLeadingZero(value) {
+    return String(value).padStart(2, '0');
+  }
 }
-
-// function addLeadingZero(value) {
-//   return value.toString().padStart(2, '0');
-// }
 
 const timer = new CountDownTimer({
   selector: '.timer',
-  targetDate: fp.selectedDates[0].getTime(),
+  // targetDate: fp.selectedDates[0],
+  // targetDate: fp.selectedDates[0].getTime(),
 });
 
 function onStartBtnClick() {
   timer.updateMarkup();
 }
+//працює і так
 // startBtn.addEventListener('click', () => timer.updateMarkup());
+
+//ментор пояснював
 // const bindFn = timer.updateMarkup.bind(timer);
 // startBtn.addEventListener('click', bindFn);
