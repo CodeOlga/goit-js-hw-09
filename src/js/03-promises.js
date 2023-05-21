@@ -1,32 +1,31 @@
 import Notiflix from 'notiflix';
 
 const form = document.querySelector('.form');
-// const firstDelay = document.querySelector('input[name="delay"]');
-// const delayStep = document.querySelector('input[name="step"]');
-// const amount = document.querySelector('input[name="amount"]');
-// const submitBtn = document.querySelector('button[type="submit"]');
 
 form.addEventListener('submit', onFormSubmit);
-// submitBtn.addEventListener('submit', createPromise);
+
+// Функція, яка на момент сабміту форми
+// викликає функцію createPromise(position, delay) стільки разів, скільки ввели в поле amount.
+// Під час кожного виклику передаємо їй номер промісу(position), що створюється,
+// і затримку, враховуючи першу затримку(delay), введену користувачем, і крок(step).
 
 function onFormSubmit(e) {
   e.preventDefault();
 
-  // const delay = e.currentTarget.delay;
-  // const step = e.currentTarget.step;
-  // const amount = e.currentTarget.amount;
-
+  //відслідковуємо подію, тому можемо отримати доступ до інпутів через їх name
   const {
     elements: { amount, delay, step },
   } = e.currentTarget;
 
+  //поточна затримка, буде різною на кожній ітерації
+  //приводимо до числа
+
+  let currentDelay = Number(delay.value);
+
+  //створюємо цикл для створення кожного окремого проміса
+
   for (let i = 1; i <= amount.value; i += 1) {
-    // step + 1;
-    let totalDelay = parseInt(delay.value) + parseInt(step.value);
-    // const totalDelay = parseInt(delay.value) + parseInt(step.value);
-    totalDelay += parseInt(step.value);
-    // console.log(totalDelay);
-    createPromise(i, totalDelay)
+    createPromise(i, currentDelay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(
           `✅ Fulfilled promise ${position} in ${delay}ms`
@@ -37,39 +36,27 @@ function onFormSubmit(e) {
           `❌ Rejected promise ${position} in ${delay}ms`
         );
       });
+    //додаємо до поточної затримки крок збільшення затримки
+    currentDelay += Number(step.value);
   }
-  // console.log(e);
-  // console.log(totalDelay);
-  // console.log(delay);
-  // console.log(e.currentTarget.step);
-  // console.log(e.currentTarget.amount);
-
-  // return;
+  //чистимо форму
+  e.target.reset();
 }
 
-// const createPromise = (position, delay) => {
-// const promise = function createPromise (position, delay) {
+// Функція createPromise поверталє один проміс, який виконується або відхиляється через delay часу.
+// Значенням промісу є об'єкт з властивостями position і delay зі значеннями однойменних параметрів.
+
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
+
+    //setTimeout для першої затримки delay
     setTimeout(() => {
       if (shouldResolve) {
-        // resolve(onFormSubmit);
         resolve({ position, delay });
-        // resolve({ firstDelay, delayStep, amount });
-        // resolve('Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`)');
       } else {
         reject({ position, delay });
-        // reject('Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`)');
       }
     }, delay);
   });
 }
-
-// createPromise(2, 1500)
-//   .then(({ position, delay }) => {
-//     Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-//   })
-//   .catch(({ position, delay }) => {
-//     Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-//   });
