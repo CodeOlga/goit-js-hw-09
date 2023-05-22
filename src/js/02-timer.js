@@ -3,8 +3,6 @@ import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix from 'notiflix';
 
 const input = document.querySelector('input');
-// input.disabled = false;
-// input.disabled = true;
 
 //отримуємо доступ до кнопки, змінюємо стилі, робимо кнопку неактивною
 const startBtn = document.querySelector('button[data-start]');
@@ -42,9 +40,6 @@ const options = {
       //викликаємо тут метод setTargetDate і передаємо йому ту дату, що обрав користувач
       startBtn.disabled = false;
       timer.setTargetDate(selectedDates[0]);
-      // input.disabled = true;
-      // input.setAttribute('disabled', true);
-      // console.log(input);
     }
     console.log(selectedDates[0]);
   },
@@ -53,10 +48,9 @@ const options = {
 //робимо екземпляр бібліотеки (ініціалізація), в змінну fp потрібно записувати,
 //якщо потрібно використовувати методи самої біблітеки (інтерфейс екземпляра)
 
-//у fp.selectedDates[0] буде обрана користувачем дата
 flatpickr('input#datetime-picker', options);
+//у fp.selectedDates[0] буде обрана користувачем дата
 // const fp = flatpickr('input#datetime-picker', options);
-// flatpickr(inputDatePickerEl, options);
 
 //створення класу countDownTimer
 class CountDownTimer {
@@ -88,9 +82,11 @@ class CountDownTimer {
       //потрібно, щоб було < 1000ms
       //delta ніколи не буде рівна 0 (завджи є похибка)
       //зупинка таймера, коли delta менше 1 секунди
+      //робимо інпут знову активним
       if (delta < 1000) {
         clearInterval(intervalId);
         Notiflix.Notify.success('Countdown finished!');
+        input.disabled = false;
       }
     }, 1000);
   }
@@ -117,7 +113,7 @@ class CountDownTimer {
   }
 }
 
-//ініціалізація таймера (створення еземплеру класу countDownTimer)
+//ініціалізація таймера (створення екземпляру класу countDownTimer)
 const timer = new CountDownTimer({
   selector: '.timer',
   //у fp.selectedDates[0] буде обрана користувачем дата
@@ -126,10 +122,11 @@ const timer = new CountDownTimer({
 });
 
 //при кліку на кнопку викликаємо timer
+//робимо кнопку і інпут неактивними
 function onStartBtnClick() {
   timer.updateMarkup();
   startBtn.disabled = true;
-  // input.disabled = true;
+  input.disabled = true;
 }
 
 //працює і так
